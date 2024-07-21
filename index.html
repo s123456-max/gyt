@@ -21,41 +21,57 @@
             position: relative;
             width: 80%;
             max-width: 800px;
-            height: 100%;
+            height: 90%;
             display: flex;
             align-items: center;
             justify-content: center;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: #fff;
         }
         .carousel-item {
             display: none;
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            top: 0;
+            left: 0;
             width: 100%;
+            height: 100%;
             box-sizing: border-box;
+            overflow: hidden;
         }
         .carousel-item.active {
             display: block;
         }
         .card {
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            text-align: center;
-            margin: 20px;
+            width: 100%;
             height: 100%;
             display: flex;
             flex-direction: column;
+            align-items: center;
             justify-content: space-between;
+            padding: 20px;
+            box-sizing: border-box;
         }
-        .card img {
+        .image-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            overflow-y: auto;
+            width: 100%;
+            scrollbar-width: none; /* Hide scrollbar for Firefox */
+            -ms-overflow-style: none;  /* Hide scrollbar for IE and Edge */
+        }
+        .image-container::-webkit-scrollbar {
+            display: none; /* Hide scrollbar for Chrome, Safari, and Opera */
+        }
+        .image-container img {
             max-width: 100%;
-            max-height: 400px;
-            width: auto;
-            height: auto;
-            border-radius: 10px;
+            max-height: 100%;
+            margin-bottom: 10px;
+            object-fit: contain; /* Ensure images fit within the container without being cropped */
         }
         .navigation {
             position: absolute;
@@ -86,6 +102,7 @@
         .description {
             font-size: 1em;
             color: #777;
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -97,6 +114,7 @@
                 <div class="image-container">
                     <img src="https://s21.ax1x.com/2024/07/13/pk4Tjz9.jpg" alt="Image 1">
                     <img src="https://s21.ax1x.com/2024/07/13/pk4Tjz9.jpg" alt="Image 2">
+                    <img src="https://s21.ax1x.com/2024/07/13/pk4Tjz9.jpg" alt="Image 2">
                 </div>
                 <div class="description">第一次约会，我们一起在公园散步。</div>
             </div>
@@ -106,7 +124,6 @@
                 <div class="date">2024年5月20日</div>
                 <div class="image-container">
                     <img src="https://s21.ax1x.com/2024/07/21/pk7iCHx.png" alt="Image 3">
-                    <img src="https://s21.ax1x.com/2024/07/21/pk7iCHx.png" alt="Image 4">
                     <img src="https://s21.ax1x.com/2024/07/21/pk7iCHx.png" alt="Image 4">
                 </div>
                 <div class="description">我们在海边度过了一个美好的下午。</div>
@@ -124,48 +141,11 @@
         const prevButton = document.getElementById('prev');
         const nextButton = document.getElementById('next');
         let currentIndex = 0;
-        let startY = null;
 
         function updateCarousel() {
             carouselItems.forEach((item, index) => {
                 item.classList.toggle('active', index === currentIndex);
             });
-        }
-
-        function handleTouchStart(e) {
-            startY = e.touches[0].clientY;
-        }
-
-        function handleTouchMove(e) {
-            if (!startY) return;
-            const endY = e.touches[0].clientY;
-            const diffY = startY - endY;
-            const images = carouselItems[currentIndex].querySelectorAll('.image-container img');
-            let currentImageIndex = 0;
-
-            images.forEach((img, index) => {
-                if (img.style.display !== 'none') {
-                    currentImageIndex = index;
-                }
-            });
-
-            if (diffY > 50) { // swipe up
-                images[currentImageIndex].style.display = 'none';
-                if (currentImageIndex < images.length - 1) {
-                    images[currentImageIndex + 1].style.display = 'block';
-                } else {
-                    images[0].style.display = 'block';
-                }
-            } else if (diffY < -50) { // swipe down
-                images[currentImageIndex].style.display = 'none';
-                if (currentImageIndex > 0) {
-                    images[currentImageIndex - 1].style.display = 'block';
-                } else {
-                    images[images.length - 1].style.display = 'block';
-                }
-            }
-
-            startY = null;
         }
 
         prevButton.addEventListener('click', () => {
@@ -181,9 +161,6 @@
                 updateCarousel();
             }
         });
-
-        document.addEventListener('touchstart', handleTouchStart, false);
-        document.addEventListener('touchmove', handleTouchMove, false);
 
         updateCarousel();
     </script>
