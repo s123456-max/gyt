@@ -45,6 +45,10 @@
             padding: 20px;
             text-align: center;
             margin: 20px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
         .card img {
             max-width: 100%;
@@ -90,14 +94,21 @@
         <div class="carousel-item active">
             <div class="card">
                 <div class="date">2024年2月14日</div>
-                <img src="https://s21.ax1x.com/2024/07/13/pk4Tjz9.jpg" alt="Image 1">
+                <div class="image-container">
+                    <img src="https://s21.ax1x.com/2024/07/13/pk4Tjz9.jpg" alt="Image 1">
+                    <img src="https://s21.ax1x.com/2024/07/13/pk4Tjz9.jpg" alt="Image 2">
+                </div>
                 <div class="description">第一次约会，我们一起在公园散步。</div>
             </div>
         </div>
         <div class="carousel-item">
             <div class="card">
                 <div class="date">2024年5月20日</div>
-                <img src="https://s21.ax1x.com/2024/07/21/pk7iCHx.png" alt="Image 2">
+                <div class="image-container">
+                    <img src="https://s21.ax1x.com/2024/07/21/pk7iCHx.png" alt="Image 3">
+                    <img src="https://s21.ax1x.com/2024/07/21/pk7iCHx.png" alt="Image 4">
+                    <img src="https://s21.ax1x.com/2024/07/21/pk7iCHx.png" alt="Image 4">
+                </div>
                 <div class="description">我们在海边度过了一个美好的下午。</div>
             </div>
         </div>
@@ -113,11 +124,48 @@
         const prevButton = document.getElementById('prev');
         const nextButton = document.getElementById('next');
         let currentIndex = 0;
+        let startY = null;
 
         function updateCarousel() {
             carouselItems.forEach((item, index) => {
                 item.classList.toggle('active', index === currentIndex);
             });
+        }
+
+        function handleTouchStart(e) {
+            startY = e.touches[0].clientY;
+        }
+
+        function handleTouchMove(e) {
+            if (!startY) return;
+            const endY = e.touches[0].clientY;
+            const diffY = startY - endY;
+            const images = carouselItems[currentIndex].querySelectorAll('.image-container img');
+            let currentImageIndex = 0;
+
+            images.forEach((img, index) => {
+                if (img.style.display !== 'none') {
+                    currentImageIndex = index;
+                }
+            });
+
+            if (diffY > 50) { // swipe up
+                images[currentImageIndex].style.display = 'none';
+                if (currentImageIndex < images.length - 1) {
+                    images[currentImageIndex + 1].style.display = 'block';
+                } else {
+                    images[0].style.display = 'block';
+                }
+            } else if (diffY < -50) { // swipe down
+                images[currentImageIndex].style.display = 'none';
+                if (currentImageIndex > 0) {
+                    images[currentImageIndex - 1].style.display = 'block';
+                } else {
+                    images[images.length - 1].style.display = 'block';
+                }
+            }
+
+            startY = null;
         }
 
         prevButton.addEventListener('click', () => {
@@ -133,6 +181,9 @@
                 updateCarousel();
             }
         });
+
+        document.addEventListener('touchstart', handleTouchStart, false);
+        document.addEventListener('touchmove', handleTouchMove, false);
 
         updateCarousel();
     </script>
