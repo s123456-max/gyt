@@ -1,151 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>苏泽鑫最最最最最最爱高雨停！</title>
-<style>
-body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Arial', sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background: url('https://s21.ax1x.com/2024/07/13/pk4Tjz9.jpg') no-repeat center center/cover;
-  color: white;
-  text-align: center;
-  overflow: hidden;
-}
-
-.container {
-  background: rgba(0, 0, 0, 0.5);
-  padding: 50px;
-  border-radius: 10px;
-  z-index: 10;
-  position: relative;
-}
-
-h1 {
-  font-size: 3em;
-  margin-bottom: 20px;
-  animation: fadeIn 2s ease-in;
-}
-
-p {
-  font-size: 1.5em;
-  margin-bottom: 40px;
-  animation: fadeIn 3s ease-in;
-}
-
-.button {
-  background-color: #ff69b4;
-  color: white;
-  padding: 15px 30px;
-  text-decoration: none;
-  font-size: 1.2em;
-  border-radius: 5px;
-  transition: background-color 0.3s ease, transform 0.1s ease;
-  animation: fadeIn 4s ease-in;
-  display: inline-block;
-}
-
-.button:active {
-  background-color: #ff1493;
-  transform: scale(0.95);
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 5;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>苏泽鑫最最最最最最爱高雨停！</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #ffe6f2;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .carousel {
+            position: relative;
+            width: 80%;
+            max-width: 800px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .carousel-item {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .carousel-item.active {
+            display: block;
+        }
+        .card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            margin: 20px;
+        }
+        .card img {
+            max-width: 100%;
+            max-height: 400px;
+            width: auto;
+            height: auto;
+            border-radius: 10px;
+        }
+        .navigation {
+            position: absolute;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
+        .navigation button {
+            background-color: rgba(255, 255, 255, 0.7);
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 50%;
+            transition: background-color 0.3s;
+            pointer-events: all;
+        }
+        .navigation button:hover {
+            background-color: rgba(255, 255, 255, 1);
+        }
+        .date {
+            font-size: 1.2em;
+            color: #555;
+            margin-bottom: 10px;
+        }
+        .description {
+            font-size: 1em;
+            color: #777;
+        }
+    </style>
 </head>
 <body>
-<div class="container">
-<h1>致我最最最最最最爱的人-高雨停</h1>
-<p>宝宝 我永远爱你！ 你在我心里永远是最最最最最最重要的人 无论发生什么事 我都会在你身边 坚定的支持你 保护你 不离不弃 我会坚定的选择你 承诺给你一个家！</p>
-<a class="button" href="#" onclick="showHearts()">我也爱你</a>
-</div>
+    <div class="carousel">
+        <div class="carousel-item active">
+            <div class="card">
+                <div class="date">2024年2月14日</div>
+                <img src="https://s21.ax1x.com/2024/07/13/pk4Tjz9.jpg" alt="Image 1">
+                <div class="description">第一次约会，我们一起在公园散步。</div>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <div class="card">
+                <div class="date">2024年5月20日</div>
+                <img src="https://s21.ax1x.com/2024/07/21/pk7iCHx.png" alt="Image 2">
+                <div class="description">我们在海边度过了一个美好的下午。</div>
+            </div>
+        </div>
+        <!-- Add more items as needed -->
+        <div class="navigation">
+            <button id="prev">&#9664;</button>
+            <button id="next">&#9654;</button>
+        </div>
+    </div>
 
-<canvas id="heartsCanvas"></canvas>
+    <script>
+        const carouselItems = document.querySelectorAll('.carousel-item');
+        const prevButton = document.getElementById('prev');
+        const nextButton = document.getElementById('next');
+        let currentIndex = 0;
 
-<script>
-  function showHearts() {
-    const canvas = document.getElementById('heartsCanvas');
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    const hearts = [];
-    const heartCount = 100;
-
-    function Heart() {
-      this.x = Math.random() * canvas.width;
-      this.y = Math.random() * canvas.height;
-      this.size = Math.random() * 20 + 10;
-      this.speedX = Math.random() * 4 - 2;
-      this.speedY = Math.random() * 4 - 2;
-      this.opacity = 1;
-
-      this.draw = function() {
-        ctx.globalAlpha = this.opacity;
-        ctx.fillStyle = 'rgba(255, 105, 180, 1)';
-        ctx.beginPath();
-        ctx.moveTo(this.x, this.y);
-        ctx.bezierCurveTo(this.x + this.size / 2, this.y - this.size / 2, this.x + this.size, this.y + this.size / 2, this.x, this.y + this.size);
-        ctx.bezierCurveTo(this.x - this.size, this.y + this.size / 2, this.x - this.size / 2, this.y - this.size / 2, this.x, this.y);
-        ctx.closePath();
-        ctx.fill();
-      };
-
-      this.update = function() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-        this.opacity -= 0.01;
-      };
-    }
-
-    function init() {
-      for (let i = 0; i < heartCount; i++) {
-        hearts.push(new Heart());
-      }
-    }
-
-    function animate() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      hearts.forEach((heart, index) => {
-        heart.update();
-        heart.draw();
-        if (heart.opacity <= 0) {
-          hearts.splice(index, 1);
-          hearts.push(new Heart());
+        function updateCarousel() {
+            carouselItems.forEach((item, index) => {
+                item.classList.toggle('active', index === currentIndex);
+            });
         }
-      });
-      requestAnimationFrame(animate);
-    }
 
-    init();
-    animate();
+        prevButton.addEventListener('click', () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateCarousel();
+            }
+        });
 
-    setTimeout(() => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-    }, 10000);
+        nextButton.addEventListener('click', () => {
+            if (currentIndex < carouselItems.length - 1) {
+                currentIndex++;
+                updateCarousel();
+            }
+        });
 
-    alert('高雨停也很爱你哦！');
-  }
-</script>
+        updateCarousel();
+    </script>
 </body>
 </html>
