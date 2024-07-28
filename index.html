@@ -142,15 +142,25 @@
             position: absolute;
             top: 10px;
             left: 10px;
-            font-size: 1.2em;
-            color: #333;
-            background: linear-gradient(to right, #ff6a95, #ff9a6a);
-            padding: 10px;
-            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .countdown .slider {
+            width: 100px;
+            height: 10px;
+            background: linear-gradient(90deg, #ff69b4, #a6c1ee);
+            border-radius: 5px;
+            margin-top: 5px;
         }
     </style>
 </head>
 <body>
+    <div class="countdown">
+        <span id="daysLeft"></span>
+        <div class="slider"></div>
+    </div>
+
     <div class="login-container">
         <h2>输入密码以查看内容</h2>
         <input type="password" id="password" placeholder="请输入密码">
@@ -158,7 +168,6 @@
     </div>
 
     <div class="carousel">
-        <div class="countdown" id="countdown"></div>
         <div class="carousel-item active">
             <div class="card">
                 <div class="date">2024年7月20日</div>
@@ -274,21 +283,20 @@
 
         updateCarousel();
 
-        // Countdown Timer
-        function getRemainingDays(endDate) {
-            const now = new Date();
-            const timeDiff = endDate.getTime() - now.getTime();
-            return Math.ceil(timeDiff / (1000 * 3600 * 24));
-        }
+        // 倒计时
+        const endDate = new Date('2024-09-08');
+        const countdownElement = document.getElementById('daysLeft');
 
         function updateCountdown() {
-            const endDate = new Date('2024-09-08');
-            const daysLeft = getRemainingDays(endDate);
-            document.getElementById('countdown').textContent = `恋爱100天倒计时：${daysLeft}天`;
+            const now = new Date();
+            const timeLeft = endDate - now;
+            const daysLeft = Math.ceil(timeLeft / (1000 * 60 * 60 * 24));
+
+            countdownElement.textContent = `距离恋爱100天还有：${daysLeft} 天`;
         }
 
-        setInterval(updateCountdown, 1000);
         updateCountdown();
+        setInterval(updateCountdown, 86400000); // 每天更新一次倒计时
     </script>
 </body>
 </html>
