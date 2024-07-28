@@ -145,19 +145,30 @@
             display: flex;
             align-items: center;
         }
-        .countdown .slider {
+        .countdown .slider-container {
             width: 100px;
             height: 10px;
-            background: linear-gradient(90deg, #ff69b4, #a6c1ee);
+            border: 2px solid #ff69b4;
             border-radius: 5px;
             margin-left: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+        .countdown .slider {
+            height: 100%;
+            background: linear-gradient(90deg, #ff69b4, #a6c1ee);
+            position: absolute;
+            top: 0;
+            left: 0;
         }
     </style>
 </head>
 <body>
     <div class="countdown">
         <span id="daysLeft"></span>
-        <div class="slider"></div>
+        <div class="slider-container">
+            <div class="slider" id="slider"></div>
+        </div>
     </div>
 
     <div class="login-container">
@@ -285,13 +296,18 @@
         // 倒计时
         const endDate = new Date('2024-09-08');
         const countdownElement = document.getElementById('daysLeft');
+        const sliderElement = document.getElementById('slider');
+        const startDate = new Date('2024-06-01'); // 恋爱开始日期
 
         function updateCountdown() {
             const now = new Date();
-            const timeLeft = endDate - now;
-            const daysLeft = Math.ceil(timeLeft / (1000 * 60 * 60 * 24));
+            const totalDays = (endDate - startDate) / (1000 * 60 * 60 * 24);
+            const daysLeft = Math.ceil((endDate - now) / (1000 * 60 * 60 * 24));
+            const daysPassed = totalDays - daysLeft;
+            const progress = (daysPassed / totalDays) * 100;
 
             countdownElement.textContent = `距离恋爱100天还有：${daysLeft} 天`;
+            sliderElement.style.width = `${progress}%`;
         }
 
         updateCountdown();
