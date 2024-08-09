@@ -7,7 +7,8 @@
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #ffe6f2;
+            background-image: url('https://s3.bmp.ovh/imgs/2024/08/09/c993274721964a3b.jpg'); 
+            background-size: cover;
             color: #333;
             margin: 0;
             padding: 0;
@@ -25,10 +26,10 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 2px solid #ccc;
+            border: 2px solid rgba(0, 0, 0, 0);
             border-radius: 10px;
             overflow: hidden;
-            background-color: #fff;
+            background-color: rgba(0, 0, 0, 0); /* 降低背景透明度，0.5表示50%透明度 */
             flex-direction: column;
             padding: 20px;
             box-sizing: border-box;
@@ -121,21 +122,26 @@
             border: none;
             padding: 10px;
             cursor: pointer;
-            border-radius: 50%;
+            border-radius: 50%; /* 按钮变成圆形 */
             transition: background-color 0.3s;
             pointer-events: all;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .navigation button:hover {
             background-color: rgba(255, 255, 255, 1);
         }
         .date {
             font-size: 1.2em;
-            color: #555;
+            color:  #460046;
             margin-bottom: 10px;
         }
         .description {
             font-size: 1em;
-            color: #777;
+            color: #460046;
             margin-top: 10px;
         }
         .countdown {
@@ -200,6 +206,24 @@
             height: 100%;
             border: none;
         }
+        .goto-last {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 2em; /* 调整字体大小，这里设置为2em，你可以根据需要调整 */
+            background-color: rgba(0, 0, 0, 0);
+            color: #C4F2CE; /* 设置箭头的颜色，例如粉色 */
+            border: none;
+            padding: 10px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .goto-last:hover {
+             color: #FDCAD2; /* 设置箭头的颜色，例如粉色 */
+        }
     </style>
 </head>
 <body>
@@ -238,7 +262,7 @@
                 <div class="description">我的宝宝最最最最最最最漂亮❤❤❤</div>
             </div>
         </div>
-        <div class="carousel-item">
+       <div class="carousel-item">
             <div class="card">
                 <div class="date">2024年7月22日</div>
                 <div class="image-container">
@@ -446,6 +470,7 @@
             <button id="prev">&#9664;</button>
             <button id="next">&#9654;</button>
         </div>
+        <button class="goto-last" onclick="goToLast()">&#x27A1;</button> <!-- 一键到达最末页按钮 -->
     </div>
 
     <script>
@@ -483,6 +508,11 @@
                 updateCarousel();
             }
         });
+
+        function goToLast() {
+            currentIndex = carouselItems.length - 1;
+            updateCarousel();
+        }
 
         updateCarousel();
 
